@@ -10,11 +10,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModelProvider
 import pl.aeh_piotr_aleksandra.weather_app_android.ui.theme.WeatherappandroidTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val weatherViewModel = ViewModelProvider(this)[WeatherViewModel::class.java]
+
         setContent {
             WeatherappandroidTheme {
                 // A surface container using the 'background' color from the theme
@@ -22,7 +26,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    WeatherPage()
+                    WeatherPage(weatherViewModel)
                 }
             }
         }
