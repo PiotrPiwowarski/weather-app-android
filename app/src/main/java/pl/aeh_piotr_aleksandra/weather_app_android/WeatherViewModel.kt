@@ -1,6 +1,5 @@
 package pl.aeh_piotr_aleksandra.weather_app_android
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
