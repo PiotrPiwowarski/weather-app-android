@@ -42,6 +42,10 @@ fun WeatherPage(viewModel: WeatherViewModel) {
         mutableStateOf("")
     }
 
+    var localization by remember {
+        mutableStateOf("")
+    }
+
     val weatherResult = viewModel.weatherResult.observeAsState()
 
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -70,6 +74,14 @@ fun WeatherPage(viewModel: WeatherViewModel) {
             }) {
                 Icon(
                     imageVector = Icons.Default.Search,
+                    contentDescription = "Search for any location")
+            }
+            IconButton(onClick = {
+                viewModel.getData(localization)
+                keyboardController?.hide()
+            }) {
+                Icon(
+                    imageVector = Icons.Default.LocationOn,
                     contentDescription = "Search for any location")
             }
         }
