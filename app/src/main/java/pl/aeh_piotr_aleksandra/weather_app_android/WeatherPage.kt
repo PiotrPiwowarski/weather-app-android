@@ -36,14 +36,14 @@ import pl.aeh_piotr_aleksandra.weather_app_android.api.NetworkResponse
 import pl.aeh_piotr_aleksandra.weather_app_android.api.WeatherModel
 
 @Composable
-fun WeatherPage(viewModel: WeatherViewModel) {
+fun WeatherPage(viewModel: WeatherViewModel, cityName: String) {
 
     var city by remember {
         mutableStateOf("")
     }
 
-    var localization by remember {
-        mutableStateOf("")
+    var location by remember {
+        mutableStateOf(cityName)
     }
 
     val weatherResult = viewModel.weatherResult.observeAsState()
@@ -77,7 +77,7 @@ fun WeatherPage(viewModel: WeatherViewModel) {
                     contentDescription = "Search for any location")
             }
             IconButton(onClick = {
-                viewModel.getData(localization)
+                viewModel.getData(location)
                 keyboardController?.hide()
             }) {
                 Icon(
