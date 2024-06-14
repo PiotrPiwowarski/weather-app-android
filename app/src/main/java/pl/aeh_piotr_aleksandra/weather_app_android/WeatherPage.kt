@@ -1,5 +1,7 @@
 package pl.aeh_piotr_aleksandra.weather_app_android
 
+import android.hardware.camera2.params.BlackLevelPattern
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -108,19 +110,9 @@ fun WeatherDetails(data: WeatherModel) {
             .fillMaxWidth()
             .padding(vertical = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Start,
-            verticalAlignment = Alignment.Bottom
-        ) {
-            Icon(
-                imageVector = Icons.Default.LocationOn,
-                contentDescription = "Localization icon",
-                modifier = Modifier.size(40.dp)
-            )
-            Text(text = data.location.name, fontSize = 30.sp)
-            Text(text = data.location.country, fontSize = 18.sp, color = Color.Gray)
-        }
+
+        Text(text = "city: ${data.location.name}", fontSize = 20.sp)
+        Text(text = "country: ${data.location.country}", fontSize = 20.sp, color = Color.Gray)
 
         Spacer(modifier = Modifier.height(16.dp))
         Text(
@@ -142,31 +134,22 @@ fun WeatherDetails(data: WeatherModel) {
             color = Color.Gray
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Card {
-            Column(
-                modifier = Modifier.fillMaxWidth()
+        Column(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceAround
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceAround
-                ) {
-                    WeatherKeyValue("Humidity", data.current.humidity)
-                    WeatherKeyValue("Wind speed", data.current.wind_kph + " km/h")
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceAround
-                ) {
-                    WeatherKeyValue("UV", data.current.uv)
-                    WeatherKeyValue("Feels like", data.current.feelslike_c + " °C")
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceAround
-                ) {
-                    WeatherKeyValue("Local time", data.location.localtime.split(" ")[1])
-                    WeatherKeyValue("Local date",  data.location.localtime.split(" ")[0])
-                }
+                WeatherKeyValue("Humidity", data.current.humidity)
+                WeatherKeyValue("Wind speed", data.current.wind_kph + " km/h")
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
+                WeatherKeyValue("Local time", data.location.localtime.split(" ")[1])
+                WeatherKeyValue("Local date",  data.location.localtime.split(" ")[0])
             }
         }
     }
@@ -178,7 +161,7 @@ fun WeatherKeyValue(key: String, value: String) {
         modifier = Modifier.padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = value, fontSize = 24.sp, fontWeight = FontWeight.Bold)
-        Text(text = key, fontWeight = FontWeight.SemiBold, color = Color.Gray)
+        Text(text = value, fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+        Text(text = key, fontWeight = FontWeight.SemiBold, color = Color.Black)
     }
 }
