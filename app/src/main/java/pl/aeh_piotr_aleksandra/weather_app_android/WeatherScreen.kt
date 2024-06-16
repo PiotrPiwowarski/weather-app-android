@@ -67,8 +67,7 @@ fun WeatherPage(weatherViewModel: WeatherViewModel, cityName: String) {
                 modifier = Modifier.weight(1f),
                 value = city,
                 onValueChange = {city = it},
-                label = { Text(text = "Podaj nazwę miasta")}, colors = OutlinedTextFieldDefaults.colors(
-                    Black))
+                label = { Text(text = "Podaj nazwę miasta")})
             IconButton(onClick = {
                 weatherViewModel.getWeather(city)
                 keyboardController?.hide()
