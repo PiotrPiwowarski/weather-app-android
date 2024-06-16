@@ -52,8 +52,6 @@ fun WeatherPage(weatherViewModel: WeatherViewModel, cityName: String) {
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    var isWeatherRequested = false
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -73,7 +71,6 @@ fun WeatherPage(weatherViewModel: WeatherViewModel, cityName: String) {
                 onValueChange = {city = it},
                 label = { Text(text = "Podaj nazwę miasta")})
             IconButton(onClick = {
-                isWeatherRequested = true
                 weatherViewModel.getWeather(city)
                 keyboardController?.hide()
             }) {
@@ -89,7 +86,6 @@ fun WeatherPage(weatherViewModel: WeatherViewModel, cityName: String) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly) {
             Button(onClick = {
-                isWeatherRequested = true
                 weatherViewModel.getWeather(location)
                 keyboardController?.hide()
             }) {
@@ -97,20 +93,6 @@ fun WeatherPage(weatherViewModel: WeatherViewModel, cityName: String) {
                     imageVector = Icons.Default.LocationOn,
                     contentDescription = "Szukaj dla aktualnej lokalizacji")
                 Text(text = "Szukaj dla aktualnej lokalizacji")
-            }
-        }
-
-        if(!isWeatherRequested) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp)
-            ) {
-                Text(
-                    text = "Sprawdzanie pogody nigdy nie było tak proste",
-                    fontSize = 15.sp,
-                    modifier = Modifier.align(Alignment.Center)
-                )
             }
         }
 
