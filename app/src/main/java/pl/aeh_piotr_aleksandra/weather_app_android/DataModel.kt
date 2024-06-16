@@ -1,4 +1,4 @@
-package pl.aeh_piotr_aleksandra.weather_app_android.api
+package pl.aeh_piotr_aleksandra.weather_app_android
 
 data class DataModel(
     val current: Current,

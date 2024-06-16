@@ -5,10 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import pl.aeh_piotr_aleksandra.weather_app_android.api.ApiKey
-import pl.aeh_piotr_aleksandra.weather_app_android.api.Response
-import pl.aeh_piotr_aleksandra.weather_app_android.api.RetrofitObject
-import pl.aeh_piotr_aleksandra.weather_app_android.api.DataModel
 
 class WeatherViewModel: ViewModel() {
 
@@ -22,7 +18,7 @@ class WeatherViewModel: ViewModel() {
         viewModelScope.launch {
             _weatherResult.value = Response.Waiting
             try {
-                val response = weatherApi.getWeather(ApiKey.API_KEY, city)
+                val response = weatherApi.getWeather(ConstValues.API_KEY, city)
                 if(response.isSuccessful) {
                     response.body()?.let {
                         _weatherResult.value = Response.Ok(it)

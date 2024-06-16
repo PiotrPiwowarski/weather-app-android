@@ -34,8 +34,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import pl.aeh_piotr_aleksandra.weather_app_android.api.Response
-import pl.aeh_piotr_aleksandra.weather_app_android.api.DataModel
 
 @Composable
 fun WeatherPage(weatherViewModel: WeatherViewModel, cityName: String) {
