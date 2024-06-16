@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 class WeatherViewModel: ViewModel() {
 
 
-    private val weatherApi = RetrofitObject.api
+    private val api = RetrofitObject.api
     private val _weatherResult = MutableLiveData<Response<DataModel>>()
     val weatherResult: LiveData<Response<DataModel>> = _weatherResult
 
@@ -18,7 +18,7 @@ class WeatherViewModel: ViewModel() {
         viewModelScope.launch {
             _weatherResult.value = Response.Waiting
             try {
-                val response = weatherApi.getWeather(ConstValues.API_KEY, city)
+                val response = api.getWeather(ConstValues.API_KEY, city)
                 if(response.isSuccessful) {
                     response.body()?.let {
                         _weatherResult.value = Response.Ok(it)
