@@ -12,7 +12,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -29,8 +28,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
-import androidx.compose.ui.graphics.Color.Companion.Green
-import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -41,7 +38,7 @@ import pl.aeh_piotr_aleksandra.weather_app_android.api.Response
 import pl.aeh_piotr_aleksandra.weather_app_android.api.DataModel
 
 @Composable
-fun WeatherPage(viewModel: WeatherViewModel, cityName: String) {
+fun WeatherPage(weatherViewModel: WeatherViewModel, cityName: String) {
 
     var city by remember {
         mutableStateOf("")
@@ -51,7 +48,7 @@ fun WeatherPage(viewModel: WeatherViewModel, cityName: String) {
         mutableStateOf(cityName)
     }
 
-    val weatherResult = viewModel.weatherResult.observeAsState()
+    val weatherResult = weatherViewModel.weatherResult.observeAsState()
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -75,7 +72,7 @@ fun WeatherPage(viewModel: WeatherViewModel, cityName: String) {
                 label = { Text(text = "Podaj nazwę miasta")}, colors = OutlinedTextFieldDefaults.colors(
                     Black))
             IconButton(onClick = {
-                viewModel.getWeather(city)
+                weatherViewModel.getWeather(city)
                 keyboardController?.hide()
             }) {
                 Icon(
@@ -90,7 +87,7 @@ fun WeatherPage(viewModel: WeatherViewModel, cityName: String) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly) {
             Button(onClick = {
-                viewModel.getWeather(location)
+                weatherViewModel.getWeather(location)
                 keyboardController?.hide()
             }) {
                 Icon(
