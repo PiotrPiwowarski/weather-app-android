@@ -1,22 +1,25 @@
 package pl.aeh_piotr_aleksandra.weather_app_android
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -27,7 +30,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -50,6 +52,8 @@ fun WeatherPage(weatherViewModel: WeatherViewModel, cityName: String) {
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    var isWeatherRequested = false
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -69,6 +73,7 @@ fun WeatherPage(weatherViewModel: WeatherViewModel, cityName: String) {
                 onValueChange = {city = it},
                 label = { Text(text = "Podaj nazwę miasta")})
             IconButton(onClick = {
+                isWeatherRequested = true
                 weatherViewModel.getWeather(city)
                 keyboardController?.hide()
             }) {
@@ -84,6 +89,7 @@ fun WeatherPage(weatherViewModel: WeatherViewModel, cityName: String) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly) {
             Button(onClick = {
+                isWeatherRequested = true
                 weatherViewModel.getWeather(location)
                 keyboardController?.hide()
             }) {
@@ -91,6 +97,20 @@ fun WeatherPage(weatherViewModel: WeatherViewModel, cityName: String) {
                     imageVector = Icons.Default.LocationOn,
                     contentDescription = "Szukaj dla aktualnej lokalizacji")
                 Text(text = "Szukaj dla aktualnej lokalizacji")
+            }
+        }
+
+        if(!isWeatherRequested) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = "Sprawdzanie pogody nigdy nie było tak proste",
+                    fontSize = 15.sp,
+                    modifier = Modifier.align(Alignment.Center)
+                )
             }
         }
 
