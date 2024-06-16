@@ -5,33 +5,33 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import pl.aeh_piotr_aleksandra.weather_app_android.api.Constant
-import pl.aeh_piotr_aleksandra.weather_app_android.api.NetworkResponse
-import pl.aeh_piotr_aleksandra.weather_app_android.api.RetrofitInstance
-import pl.aeh_piotr_aleksandra.weather_app_android.api.WeatherModel
+import pl.aeh_piotr_aleksandra.weather_app_android.api.ApiKey
+import pl.aeh_piotr_aleksandra.weather_app_android.api.Response
+import pl.aeh_piotr_aleksandra.weather_app_android.api.RetrofitObject
+import pl.aeh_piotr_aleksandra.weather_app_android.api.DataModel
 
 class WeatherViewModel: ViewModel() {
 
 
-    private val weatherApi = RetrofitInstance.weatherApi
-    private val _weatherResult = MutableLiveData<NetworkResponse<WeatherModel>>()
-    val weatherResult: LiveData<NetworkResponse<WeatherModel>> = _weatherResult
+    private val weatherApi = RetrofitObject.api
+    private val _weatherResult = MutableLiveData<Response<DataModel>>()
+    val weatherResult: LiveData<Response<DataModel>> = _weatherResult
 
     fun getData(city: String) {
 
         viewModelScope.launch {
-            _weatherResult.value = NetworkResponse.Loading
+            _weatherResult.value = Response.Waiting
             try {
-                val response = weatherApi.getWeather(Constant.API_KEY, city)
+                val response = weatherApi.getWeather(ApiKey.API_KEY, city)
                 if(response.isSuccessful) {
                     response.body()?.let {
-                        _weatherResult.value = NetworkResponse.Success(it)
+                        _weatherResult.value = Response.Ok(it)
                     }
                 } else {
-                    _weatherResult.value = NetworkResponse.Error("Fail to load data")
+                    _weatherResult.value = Response.NotOk("Fail to load data")
                 }
             } catch(e: Exception) {
-                _weatherResult.value = NetworkResponse.Error("Fail to load data")
+                _weatherResult.value = Response.NotOk("Fail to load data")
             }
         }
     }

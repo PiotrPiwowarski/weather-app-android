@@ -1,7 +1,5 @@
 package pl.aeh_piotr_aleksandra.weather_app_android
 
-import android.hardware.camera2.params.BlackLevelPattern
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,7 +11,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -34,8 +31,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import pl.aeh_piotr_aleksandra.weather_app_android.api.NetworkResponse
-import pl.aeh_piotr_aleksandra.weather_app_android.api.WeatherModel
+import pl.aeh_piotr_aleksandra.weather_app_android.api.Response
+import pl.aeh_piotr_aleksandra.weather_app_android.api.DataModel
 
 @Composable
 fun WeatherPage(viewModel: WeatherViewModel, cityName: String) {
@@ -89,13 +86,13 @@ fun WeatherPage(viewModel: WeatherViewModel, cityName: String) {
         }
 
         when(val result = weatherResult.value) {
-            is NetworkResponse.Error -> {
+            is Response.NotOk -> {
                 Text(text = result.message)
             }
-            NetworkResponse.Loading -> {
+            Response.Waiting -> {
                 CircularProgressIndicator()
             }
-            is NetworkResponse.Success -> {
+            is Response.Ok -> {
                 WeatherDetails(data = result.data)
             }
             null -> {}
@@ -104,7 +101,7 @@ fun WeatherPage(viewModel: WeatherViewModel, cityName: String) {
 }
 
 @Composable
-fun WeatherDetails(data: WeatherModel) {
+fun WeatherDetails(data: DataModel) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
