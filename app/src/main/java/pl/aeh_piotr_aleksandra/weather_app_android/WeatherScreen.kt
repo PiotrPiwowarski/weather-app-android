@@ -29,6 +29,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
+import androidx.compose.ui.graphics.Color.Companion.Green
+import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -90,10 +92,7 @@ fun WeatherPage(viewModel: WeatherViewModel, cityName: String) {
             Button(onClick = {
                 viewModel.getWeather(location)
                 keyboardController?.hide()
-            },
-                colors = ButtonDefaults.buttonColors(
-                    Black
-                )) {
+            }) {
                 Icon(
                     imageVector = Icons.Default.LocationOn,
                     contentDescription = "Szukaj dla aktualnej lokalizacji")
