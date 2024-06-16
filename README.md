@@ -4,6 +4,6 @@ Piotr Piwowarski 42036
 
 Aleksandra Nowak 41860
 ## Tech
-Android, Kotlin, Jetpack Compose, Retrofit 2, JUnit, Mockito
+Android, Kotlin, Jetpack Compose, Retrofit 2
 ## Description
-Checking weather by city name. Data: temperature, weather, humidity, uv, local time, wind speed, feels like, local date
+User can check the weather by entering the city name or by device's location
