@@ -17,7 +17,7 @@ class WeatherViewModel: ViewModel() {
     private val _weatherResult = MutableLiveData<Response<DataModel>>()
     val weatherResult: LiveData<Response<DataModel>> = _weatherResult
 
-    fun getData(city: String) {
+    fun getWeather(city: String) {
 
         viewModelScope.launch {
             _weatherResult.value = Response.Waiting
@@ -28,10 +28,10 @@ class WeatherViewModel: ViewModel() {
                         _weatherResult.value = Response.Ok(it)
                     }
                 } else {
-                    _weatherResult.value = Response.NotOk("Fail to load data")
+                    _weatherResult.value = Response.NotOk("Nie udało się wczytać danych (upewnij się, że nazwa miasta jest po angielsku)")
                 }
             } catch(e: Exception) {
-                _weatherResult.value = Response.NotOk("Fail to load data")
+                _weatherResult.value = Response.NotOk("Nie udało się wczytać danych (upewnij się, że nazwa miasta jest po angielsku)")
             }
         }
     }

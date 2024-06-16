@@ -7,12 +7,12 @@ object RetrofitObject {
 
     private const val URL = "https://api.weatherapi.com"
 
-    private fun getInstance(): Retrofit {
+    private fun getObject(): Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(URL)
             .build()
     }
 
-    val api: Api = getInstance().create(Api::class.java)
+    val api: Api = getObject().create(Api::class.java)
 }

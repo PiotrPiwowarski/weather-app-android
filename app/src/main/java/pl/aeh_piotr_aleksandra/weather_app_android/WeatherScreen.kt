@@ -11,10 +11,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -66,22 +70,34 @@ fun WeatherPage(viewModel: WeatherViewModel, cityName: String) {
                 modifier = Modifier.weight(1f),
                 value = city,
                 onValueChange = {city = it},
-                label = { Text(text = "Search for any location")})
+                label = { Text(text = "Podaj nazwę miasta")}, colors = OutlinedTextFieldDefaults.colors(
+                    Black))
             IconButton(onClick = {
-                viewModel.getData(city)
+                viewModel.getWeather(city)
                 keyboardController?.hide()
             }) {
                 Icon(
                     imageVector = Icons.Default.Search,
-                    contentDescription = "Search for any location")
+                    contentDescription = "Szukaj po nazwie miasta")
             }
-            IconButton(onClick = {
-                viewModel.getData(location)
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceEvenly) {
+            Button(onClick = {
+                viewModel.getWeather(location)
                 keyboardController?.hide()
-            }) {
+            },
+                colors = ButtonDefaults.buttonColors(
+                    Black
+                )) {
                 Icon(
                     imageVector = Icons.Default.LocationOn,
-                    contentDescription = "Search for any location")
+                    contentDescription = "Szukaj dla aktualnej lokalizacji")
+                Text(text = "Szukaj dla aktualnej lokalizacji")
             }
         }
 
@@ -93,7 +109,7 @@ fun WeatherPage(viewModel: WeatherViewModel, cityName: String) {
                 CircularProgressIndicator()
             }
             is Response.Ok -> {
-                WeatherDetails(data = result.data)
+                WeatherData(data = result.data)
             }
             null -> {}
         }
@@ -101,7 +117,7 @@ fun WeatherPage(viewModel: WeatherViewModel, cityName: String) {
 }
 
 @Composable
-fun WeatherDetails(data: DataModel) {
+fun WeatherData(data: DataModel) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -138,27 +154,27 @@ fun WeatherDetails(data: DataModel) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
-                WeatherKeyValue("Humidity", data.current.humidity)
-                WeatherKeyValue("Wind speed", data.current.wind_kph + " km/h")
+                AdditionalData("Humidity", data.current.humidity)
+                AdditionalData("Wind speed", data.current.wind_kph + " km/h")
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
-                WeatherKeyValue("Local time", data.location.localtime.split(" ")[1])
-                WeatherKeyValue("Local date",  data.location.localtime.split(" ")[0])
+                AdditionalData("Local time", data.location.localtime.split(" ")[1])
+                AdditionalData("Local date",  data.location.localtime.split(" ")[0])
             }
         }
     }
 }
 
 @Composable
-fun WeatherKeyValue(key: String, value: String) {
+fun AdditionalData(description: String, value: String) {
     Column(
         modifier = Modifier.padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = value, fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color.Black)
-        Text(text = key, fontWeight = FontWeight.SemiBold, color = Color.Black)
+        Text(text = description, fontWeight = FontWeight.SemiBold, color = Color.Black)
     }
 }
